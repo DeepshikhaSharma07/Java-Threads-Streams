@@ -1,14 +1,18 @@
-The application should print out "Mares do eat oats."
+2. The application should print out "Mares do eat oats."
 
 - Is it guaranteed to always do this?
 
 - If not, why not?
+
+Answer:
 
 The program will almost always print out "Mares do eat oats."
 However, this result is not guaranteed, because there is no relationship set / happens-before relationship
 between "Key statement 1" and "Key statement 2".
 
 3. Would it help to change the parameters of the two invocations of Sleep?
+
+Answer:
 
 Happens-before relationship is a guarantee that action performed by one thread is visible to another action
 in different thread.
@@ -17,19 +21,8 @@ a happens-before relationship is about visibility, not sequence.
 
 4. How would you guarantee that all changes to message will be visible in the main thread?
 
+Answer:
 
-
-Please type your answers and submit.
-
-
-
-
-There are two ways you can guarantee that all changes to message will be visible to the main thread:
+We can use join method to guarantee that the Key element 2 happens first.
 
 In the main thread, retain a reference to the CorrectorThread instance. Then invoke join on that instance before referring to message
-Encapsulate message in an object with synchronized methods. Never reference message except through those methods.
-Both of these techniques establish the necessary happens-before relationship, making changes to message visible.
-
-A third technique is to simply declare message as volatile. This guarantees that any write to message (as in "Key statement 1") will have a happens-before relationship with any subsequent reads of message (as in "Key statement 2"). But it does not guarantee that "Key statement 1" will literally happen before "Key statement 2". They will probably happen in sequence, but because of scheduling uncertainties and the unknown granularity of sleep, this is not guaranteed.
-
-Changing the arguments of the two sleep invocations does not help either, since this does nothing to guarantee a happens-before relationship.
